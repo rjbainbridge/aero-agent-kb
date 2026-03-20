@@ -18,13 +18,11 @@
 <li><code>Primers/Sharepoint/Folder_Architecture_Primer_v1.1.md</code></li>
 <li><code>References/Platform_Reference_Index.md</code></li>
 </ul>
-<h2>Power Automate and VBA Source Mapping (authoritative)</h2>
+<h2>Power Automate Source Mapping (authoritative)</h2>
 <ul>
-<li>PA solution export artifact: <code>AeroAccreditationCore_1_0_0_36_managed</code>.</li>
-<li>PA solution repo: <a href="https://github.com/rjbainbridge/aero-pa-solution">github.com/rjbainbridge/aero-pa-solution</a></li>
-<li>PA flow path: <code>/src/Flows/Aero Accreditation - Course Audit</code></li>
-<li>PA key action: <code>Populate Word template</code> for DNQ Course Audit checklist</li>
-<li>VBA repository path: <code>/src/excel-vba/aero-accreditation</code> (or equivalent in your repo)</li>
-<li>VBA entry module: <code>modAeroAccreditation</code>, key tables: <code>tblStudents</code>, <code>tblCourses_AXT</code>, <code>tblGrades</code>.</li>
+<li><strong>Repository (primary source)</strong>: <a href="https://github.com/rjbainbridge/aero-pa-solution">github.com/rjbainbridge/aero-pa-solution</a></li>
+<li><strong>Flow location (relative path)</strong>: <code>/src/Flows/Aero Accreditation - Course Audit</code></li>
+<li><strong>Key PA action (referenced by name)</strong>: <code>Populate Word template (DNQ Course Audit checklist)</code></li>
+<li><strong>Usage notes (KB-standard)</strong>: Source of truth for: Accreditation automation, Course audit generation, Word checklist population. All trigger, action, and schema references must resolve back to this path.</li>
 </ul>
 </body></html>
