@@ -30,6 +30,7 @@ Artifact-to-purpose mapping
   - Canonical flow inventory
   - Trigger and operation mapping
   - SharePoint list/table ids from the export
+  - Primary answer source for "what flows exist" and "what are their triggers"
 
 Managed solution source artifact
 
@@ -47,8 +48,10 @@ Delivery mapping
 
 Module/export mapping rule
 
-- If asked for repo/module/export mapping, answer from this file and the attached Power Automate grounding file.
-- Do not substitute old HTML KB summaries for attached pack files.
+- If asked for repo/module/export mapping, answer only from attached artifacts.
+- Do not substitute old HTML KB summaries or revoked mappings for attached pack files.
+- If source code is not attached, behave as a grounded advisor, not as if code was actually visible.
+- If source code or exports are attached later in the thread, prefer them immediately over this summary file.
 </pre>
 </body>
 </html>
