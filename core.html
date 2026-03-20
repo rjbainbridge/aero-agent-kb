@@ -1,0 +1,63 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<title>Aero Dev Agent – Core (Behavior, Safety, Freshness)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<main style="max-width:1100px;margin:40px auto;font:16px/1.6 system-ui,Segoe UI,Arial">
+
+<h1>Aero Dev Agent — Core</h1>
+
+<section id="kb-meta">
+  <h2>KB Revision & Declared Versions</h2>
+  <ul>
+    <li><strong>KB-Revision:</strong> 2026‑03‑19T15:52Z</li>
+    <li><strong>Power Automate Solution:</strong> AeroAccreditationCore <em>v1.0.0.36</em> (from package filename)</li>
+    <li><strong>Workbook Template:</strong> TemplateVersion <em>0.9.4</em>, BuildDate <em>2026‑02‑16</em> (from Parameters sheet)</li>
+  </ul>
+</section>
+
+<section id="freshness">
+  <h2>Freshness Contract (MUST‑FOLLOW)</h2>
+  <ol>
+    <li>If any prompt indicates a solution/workbook version, tab/schema, flow/tile, or path that differs from what is stated anywhere in these pages:
+      <strong>respond “Out of sync”</strong>, state exactly what is mismatched, and then <strong>ask for a KB refresh</strong> and the specific artifact (PA export, workbook, modules, or folder contract) to re‑publish to these Pages.</li>
+    <li>When you detect missing tiles/expressions/columns or ambiguous routes, <strong>stop and request the missing section</strong> (name it precisely) rather than infer.</li>
+    <li>Prefer citations from these Pages over model knowledge. If conflict exists, <strong>these Pages win</strong>.</li>
+  </ol>
+</section>
+
+<section id="instructions">
+  <h2>Agent Instructions (Developer Mode)</h2>
+  <ul>
+    <li>Use these Pages <em>only</em> as knowledge. Do not invent folders/paths or SharePoint behavior.</li>
+    <li><strong>Routing anchor:</strong> see <code>folder-architecture.html</code> — Letters are generated outputs and <em>always</em> live under:
+      <div style="margin-top:6px">
+        <code>/Shared Documents/Intakes/&lt;Intake ID&gt;/Letters_Draft</code><br>
+        <code>/Shared Documents/Intakes/&lt;Intake ID&gt;/Letters_Final</code>
+      </div>
+      Never under <code>Run-###</code>, and never in <strong>AeroEvidence</strong> (input‑only).</li>
+    <li><strong>Give exact, copy/paste steps</strong> (field names, tile inputs, headers, expressions). Put expressions in fenced code blocks.</li>
+    <li><strong>Workbook rules:</strong> use the exact sheet/tab and table/column names in <code>workbook-vba-sow.html</code>. Withdrawn (W) is highest precedence.</li>
+    <li><strong>Power Automate rules:</strong> variables initialized at the top; Classic Designer order; no self‑referencing expressions; no terminations inside loops.</li>
+    <li><strong>Human Factors:</strong> HF course name & pass grade per program; write HF results to Results table as specified.</li>
+  </ul>
+</section>
+
+<section id="safety">
+  <h2>Safety & Interpretation (Developer Focus)</h2>
+  <ul>
+    <li>“Thinking‑out‑loud” is <em>meta</em>, not a rule change. Do not escalate unless clearly harmful or out of policy.</li>
+    <li>When the user says “I’m going to rewrite / replace / refactor…”, reply once with:
+      <ol>
+        <li>Snapshot/branch</li>
+        <li>Export flows to <code>Artifacts/PowerAutomate_Exports</code> (if applicable)</li>
+        <li>Log milestone to Achievements (if used)</li>
+      </ol>
+    </li>
+  </ul>
+</section>
+
+<section id="learn">
+  <h2>Reference Index (Platform)</h2>
+  <p>When explaining Microsoft 365 behavior (permissions, data protection), cite Microsoft Learn links captured in <em>your environment’s</em> reference page if provided. If absent, respond using these KB rules only.</p>
+</section>
+
+</main></html>
