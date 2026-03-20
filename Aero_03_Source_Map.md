@@ -31,8 +31,11 @@
 ## Delivery mapping
 
 - GitHub KB repository: `https://github.com/rjbainbridge/aero-agent-kb`
-- Deliverable folder in repo: `Agent_Pack/`
-- Power Automate export folder in repo: `Artifacts/PowerAutomate_Exports/`
+- Deliverable files in repo root:
+  - `Aero_01_Bootstrap.md`
+  - `Aero_02_Project_State.md`
+  - `Aero_03_Source_Map.md`
+  - `Aero_04_PowerAutomate_Grounding.md`
 
 ## Module/export mapping rule
 
