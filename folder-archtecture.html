@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<title>Aero — SharePoint Folder Architecture (Authoritative)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<main style="max-width:1100px;margin:40px auto;font:16px/1.6 system-ui,Segoe UI,Arial">
+
+<h1>SharePoint Folder Architecture — Authoritative Map</h1>
+
+<section>
+  <h2>Libraries & Roles</h2>
+  <ul>
+    <li><strong>Documents</strong> — operational outputs, reviews, final letters, and run workspaces.</li>
+    <li><strong>AeroEvidence</strong> — <em>input‑only</em> (evidence inputs, RunPublish inputs, logs). No generated outputs here.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Intake Root (Documents)</h2>
+  <pre>/Shared Documents/Intakes/&lt;Intake ID&gt;/
+    Letters_Draft/
+    Letters_Final/
+    Run-###/
+    00-CURRENT.txt
+    _Inbox/</pre>
+  <ul>
+    <li><strong>Letters_Draft/</strong> — working versions for Admin → PRT → ISA review.</li>
+    <li><strong>Letters_Final/</strong> — approved/issued versions only (post‑gates).</li>
+    <li><strong>00-CURRENT.txt</strong> — active run metadata pointer written during publish.</li>
+    <li><strong>_Inbox/</strong> — optional operator staging.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Run‑Level Workspace (Documents)</h2>
+  <pre>/Shared Documents/Intakes/&lt;Intake ID&gt;/Run-###/
+    EvidencePDFs/
+    Exports/
+    Workbook/</pre>
+  <ul>
+    <li><strong>EvidencePDFs/</strong> — standardized Attendance/Transcript PDFs (copied/renamed by macros when importing).</li>
+    <li><strong>Exports/</strong> — <code>RunPublish-*.xlsx</code> and other run exports.</li>
+    <li><strong>Workbook/</strong> — authoritative locked cohort workbook copy for the run.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>AeroEvidence (Inputs Only)</h2>
+  <pre>/Accreditation Documents/Intakes/&lt;Intake ID&gt;/
+    EvidencePDFs/
+    Workbook/
+    Logs/
+    Exports/
+    RunPublish.xlsx</pre>
+  <ul>
+    <li>Store input evidence and RunPublish inputs for audit; <strong>never</strong> store generated letters here.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Routing Rules (No Ambiguity)</h2>
+  <ul>
+    <li><strong>Draft letter/checklist</strong> → <code>/Shared Documents/Intakes/&lt;Intake ID&gt;/Letters_Draft/</code></li>
+    <li><strong>Final letter/checklist</strong> → <code>/Shared Documents/Intakes/&lt;Intake ID&gt;/Letters_Final/</code></li>
+    <li><strong>Attendance/Transcript PDFs for a run</strong> → <code>.../Run-###/EvidencePDFs/</code></li>
+    <li><strong>Run exports & workbook</strong> → <code>.../Run-###/Exports/</code> and <code>.../Run-###/Workbook/</code></li>
+    <li><strong>Run Publish inputs</strong> → <code>/Accreditation Documents/Intakes/&lt;Intake ID&gt;/RunPublish.xlsx</code></li>
+  </ul>
+  <p><strong>Letters are generated outputs.</strong> They are stored directly under the Intake folder in <strong>Documents</strong> (Draft → Final), not under <code>Run-###</code>, and never in AeroEvidence.</p>
+</section>
+
+<section>
+  <h2>Where should X go? (Cheat Sheet)</h2>
+  <table border="1" cellpadding="6" cellspacing="0">
+    <thead><tr><th>Artifact</th><th>Target Path</th></tr></thead>
+    <tbody>
+      <tr><td>Draft letter</td><td>/Shared Documents/Intakes/&lt;Intake ID&gt;/Letters_Draft/</td></tr>
+      <tr><td>Final letter</td><td>/Shared Documents/Intakes/&lt;Intake ID&gt;/Letters_Final/</td></tr>
+      <tr><td>Attendance PDFs (Run)</td><td>/Shared Documents/Intakes/&lt;Intake ID&gt;/Run-###/EvidencePDFs/</td></tr>
+      <tr><td>Transcript PDFs (Run)</td><td>/Shared Documents/Intakes/&lt;Intake ID&gt;/Run-###/EvidencePDFs/</td></tr>
+      <tr><td>RunPublish export</td><td>/Shared Documents/Intakes/&lt;Intake ID&gt;/Run-###/Exports/</td></tr>
+      <tr><td>Authoritative run workbook</td><td>/Shared Documents/Intakes/&lt;Intake ID&gt;/Run-###/Workbook/</td></tr>
+      <tr><td>RunPublish.xlsx (input copy)</td><td>/Accreditation Documents/Intakes/&lt;Intake ID&gt;/RunPublish.xlsx</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</main></html>
