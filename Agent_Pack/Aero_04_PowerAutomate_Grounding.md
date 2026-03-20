@@ -1,0 +1,58 @@
+# Aero Power Automate Grounding
+
+## Authoritative source
+
+- Managed solution export: `Artifacts/PowerAutomate_Exports/AeroAccreditationCore_1_0_0_36_managed.zip`
+- Solution: `AeroAccreditationCore`
+- Version: `1.0.0.36`
+
+## Flows and triggers
+
+1. `ProcessIntakeInbox`
+   - File: `Workflows/ProcessIntakeInbox-1090A00C-D311-F111-8341-7CED8D35F541.json`
+   - Trigger key: `For_a_selected_file`
+   - Trigger type: `Request`
+   - Trigger kind: `ApiConnection`
+   - Operation: `ForASelectedFileHybridTrigger`
+   - Table/List id: `5bcda010-124c-48ac-a9a7-00b70706baf4`
+
+2. `GetStudentResults`
+   - File: `Workflows/GetStudentResults-75B78E64-CD15-F111-8341-7CED8D35F541.json`
+   - Trigger key: `When_a_file_is_created_or_modified_(properties_only)`
+   - Trigger type: `OpenApiConnection`
+   - Operation: `GetOnUpdatedFileItems`
+   - Polling: every `1 Minute`
+   - Table/List id: `5bcda010-124c-48ac-a9a7-00b70706baf4`
+   - Conditions:
+     - filename equals `_INBOX-READY.txt`
+     - path contains `/_inbox/`
+
+3. `GenerateLettersForIntake`
+   - File: `Workflows/GenerateLettersForIntake-58E4CD34-741D-F111-8341-7CED8D35F541.json`
+   - Trigger key: `trigger_ForSelectedIntake`
+   - Trigger type: `Request`
+   - Trigger kind: `ApiConnection`
+   - Operation: `GetItemHybridTriggerSchema`
+   - Table/List id: `979bac79-369e-4cda-ba63-08223b5dcbb3`
+
+4. `QueueHardCopyOnCourseAuditAdminReview`
+   - File: `Workflows/QueueHardCopyOnCourseAuditAdminReview-1B411426-1E23-F111-8342-7CED8D35F541.json`
+   - Trigger key: `When_a_file_is_created_or_modified_(properties_only)`
+   - Trigger type: `OpenApiConnection`
+   - Operation: `GetOnUpdatedFileItems`
+   - Polling: every `1 Minute`
+   - Table/List id: `66f929e3-72b9-434b-9337-9dcfe55d8da0`
+
+5. `OnCohortCreation`
+   - File: `Workflows/OnCohortCreation-C416AF44-950B-F111-8406-7CED8D35F541.json`
+   - Trigger key: `OnIntakeCreation`
+   - Trigger type: `OpenApiConnection`
+   - Operation: `GetOnNewItems`
+   - Polling: every `1 Minute`
+   - Table/List id: `979bac79-369e-4cda-ba63-08223b5dcbb3`
+
+## Safe answer rules
+
+- If asked to list deployed flows, use the five flows above.
+- If asked for triggers, use the exact operations above.
+- If asked for anything not present here or in the attached export, say: `source unavailable in attached artifacts`
