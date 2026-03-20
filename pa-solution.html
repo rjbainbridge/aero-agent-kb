@@ -1,0 +1,144 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<title>Aero — Power Automate Solution (AeroAccreditationCore v1.0.0.36)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<main style="max-width:1100px;margin:40px auto;font:16px/1.6 system-ui,Segoe UI,Arial">
+
+<h1>AeroAccreditationCore — Complete Power Automate Solution</h1>
+
+<p><b>Solution:</b> <code>AeroAccreditationCore</code> (Managed) — <b>Version:</b> <code>1.0.0.36</code>. Publisher <code>AAD</code>, language 1033. Connection references include SharePoint Online, Excel Online (Business), Word Online (Business), and Teams as listed below. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</p>
+
+<section id="conn-refs">
+  <h2>Connection References</h2>
+  <ul>
+    <li><code>aad_sharedsharepointonline_70695</code> — SharePoint. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+    <li><code>aad_sharedsharepointonline_d8d3a</code> — SharePoint. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+    <li><code>aad_sharedsharepointonline_d8d49</code> — SharePoint. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+    <li><code>new_sharedexcelonlinebusiness_e7412</code> and <code>aad_sharedexcelonlinebusiness_e756a</code> — Excel Online (Business). [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+    <li><code>new_sharedwordonlinebusiness_5e35e</code> — Word Online (Business). [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+    <li><code>aad_sharedteams_1a536</code> — Microsoft Teams. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+  </ul>
+</section>
+
+<section id="flows">
+  <h2>Flow Catalog</h2>
+  <p>This solution contains the following Cloud flows (Category 5) with their canonical purposes:</p>
+  <ol>
+    <li><b>ProcessIntakeInbox</b> — manual run “For a selected file” inside an Intake <code>_Inbox</code>; reads and updates <code>_INBOX-READY.txt</code>, parses <code>00-CURRENT.TXT</code>, computes QuickXorHash for Evidence PDFs and RunPublish, writes ExpectedSHA256 and metadata to <code>EvidenceManifest</code>, and flips state to <b>Imported</b>. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+    <li><b>GetStudentResults</b> — watches for <code>_INBOX-READY.txt</code> changes; when state is <b>Imported</b>, pulls <code>tblResultsExtract</code> from <code>RunPublish.xlsx</code>, and upserts rows to SharePoint <code>StudentResults</code> (OData) keyed by RunID/StudentID. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+    <li><b>GenerateLettersForIntake</b> — manual run on an <b>Intakes</b> list row; pulls Results/Attendance/Grades/Courses from the <b>authoritative workbook</b>, generates <b>Accreditation/DNQ/HF letters</b> + <b>Course Audit</b> and <b>Final Checklists</b> via Word Online templates, writes to <code>Documents/Intakes/&lt;IntakeID&gt;/Letters_Draft</code>, sets metadata, and posts a Teams summary. Gate logic prevents duplicates unless transitioning between DNQ↔Qualified. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+    <li><b>QueueHardCopyOnCourseAuditAdminReview</b> — file property watcher for Course Audit Admin Review metadata that sets Hard Copy routing flags. (JSON truncated in export, but header confirms purpose & trigger.) [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+    <li><b>OnCohortCreation</b> — initialization flow for new cohort rows (JSON header present in solution manifest). [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+  </ol>
+</section>
+
+<hr>
+
+<section id="processintakeinbox">
+  <h2>Flow 1 — ProcessIntakeInbox</h2>
+  <h3>Trigger</h3>
+  <ul>
+    <li><b>For a selected file</b> (SharePoint): dataset <code>/sites/AccreditationDigitalization</code>, accepts selected file from Intakes’ <code>_Inbox</code>. Splits payload rows via Request schema. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+  </ul>
+
+  <h3>Variables (initialized at top, in order)</h3>
+  <pre><code>varNowUtc := @{utcNow()}
+varCorrelationId := @{concat('AERO-', utcNow('yyyyMMddHHmmssfff'), '-', guid())}
+varSelectedFileName := @{triggerOutputs()?['body/{FilenameWithExtension}']}
+varSelectedFilePath := @{triggerOutputs()?['body/{Path}']}
+varIntakeId := ''          // later set from _INBOX-READY.txt
+varProgram := ''           // later set from _INBOX-READY.txt
+varActiveRun := ''         // later set (ACTIVE_RUN)
+varPackageRunId := ''      // starts as ACTIVE_RUN; can be reset from 00-CURRENT
+varInboxPath := ''
+varRunRoot := ''
+varDestPdfPath := ''
+varExportsPath := ''
+varWorkbookPath := ''
+varRunPublishFilePath := ''
+varRunPublishPath := ''
+varRunPublishSha := ''
+varPdfname := ''
+varSha256 := ''
+varHashServiceUrl := '&lt;PROVIDE_AT_DEPLOY&gt;'
+varCRLF := @{decodeUriComponent('%0D%0A')}
+varIntakeImportLog := ''
+varIntakeFriendly := ''
+varIntakeIdEscaped := ''
+varIntakesUri := ''
+varFriendlyWBName := ''
+varFileList := @createArray(0)</code></pre>
+  <p>All above taken from <code>InitializeVariable</code> tiles in the JSON. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</p>
+
+  <h3>Key Steps (in Classic order)</h3>
+
+  <ol>
+    <li><b>Get file props</b> — SharePoint <code>GetFileItem</code> using selected file ItemId. Used to compute: library, server rel, path, driveId. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+
+    <li><b>Guard: ensure path contains <code>/_inbox/</code></b> — else terminate with message “Select any file inside an Intake _Inbox…”.  
+      <code>Condition</code> expression:
+      <pre><code>@greaterOrEquals(indexOf(toLower(outputs('c_SelectedFolderPath')), '/_inbox/'), 0)</code></pre>
+      [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)
+    </li>
+
+    <li><b>Read <code>_INBOX-READY.txt</code></b> from the selected intake folder and split by CRLF. Compose lines into typed values:
+      <pre><code>c_INTAKE_ID      := @trim(split(variables('varFileContentsByLine')[0],':')[1])
+c_PROGRAM_ID     := @trim(split(variables('varFileContentsByLine')[1],':')[1])
+c_ACTIVE_RUN     := @trim(split(variables('varFileContentsByLine')[2],':')[1])
+c_AUTH_WB        := @trim(split(variables('varFileContentsByLine')[3],':')[1])
+c_RP_PATH        := @trim(split(variables('varFileContentsByLine')[4],':')[1])
+c_RP_SHA256      := @trim(split(variables('varFileContentsByLine')[5],':')[1])
+c_LAST_PUB_UTC   := @trim(split(variables('varFileContentsByLine')[6],':')[1])
+c_LAST_IMPORT_UTC:= @trim(split(variables('varFileContentsByLine')[7],':')[1])
+c_STATE          := @trim(split(variables('varFileContentsByLine')[8],':')[1])</code></pre>
+      Then set <code>varIntakeId</code>, <code>varProgram</code>, <code>varActiveRun</code>, <code>varPackageRunId</code>, <code>varRunPublishPath</code> from those composes. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)
+    </li>
+
+    <li><b>Resolve Intake row</b> via REST to <code>/_api/web/lists/GetByTitle('Intakes')</code> filtered by Title == IntakeId; capture <code>CohortFolderPath</code>, Program ID, and a separate GET for entity type meta.  
+      URI compose (paste‑ready):
+      <pre><code>@concat('/_api/web/lists/GetByTitle(''Intakes'')/items',
+'?$select=Id,Title,CohortFolderPath,ProgramId,Program/Id',
+'&$expand=Program',
+'&$filter=Title eq ''', variables('varIntakeIdEscaped'), '''')</code></pre>
+      [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)
+    </li>
+
+    <li><b>Parse <code>00-CURRENT.TXT</code></b> from the Intake Run root (determined from <code>_Inbox</code> siblings). Extract <b>Active run</b>, <b>Authoritative workbook</b>, <b>RunPublish path</b>, <b>Last published</b>. If found, the flow overrides <code>varPackageRunId</code> and <code>varRunPublishPath</code> from CURRENT for consistency. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+
+    <li><b>Folder mapping for run</b> — build <code>EvidencePDFs/</code>, <code>Exports/</code>, <code>Logs/</code>, <code>Workbook/</code> under <code>/Intakes/&lt;IntakeId&gt;/Run-###</code>.  
+      Example (paste‑ready):
+      <pre><code>varRunRootRel       := @{outputs('c_RunRootRel')}
+varDestPdfPathRel   := @{concat(variables('varRunRootRel'),'EvidencePDFs/')}
+varExportsPathRel   := @{concat(variables('varRunRootRel'),'Exports/')}
+varWorkbookPathRel  := @{concat(variables('varRunRootRel'),'Workbook/')}
+
+varRunPublishFilePath := @{concat(outputs('c_IntakeRootServer'),
+  replace(outputs('c_CURRENT_RP_PATH'),'\\','/'))}</code></pre>
+      [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)
+    </li>
+
+    <li><b>Enumerate Evidence PDFs</b> in that run:
+      <pre><code>c_EvidencePdfFolderServerRel := @{concat(outputs('c_IntakeRootServer'), outputs('c_CURRENT_ActiveRun'), '/EvidencePDFs/')}
+c_EvidencePdfEnumUri := @{concat('/_api/web/GetFolderByServerRelativeUrl(''', encodeUriComponent(outputs('c_EvidencePdfFolderServerRel')), ''')?$expand=Files')}</code></pre>
+      For each file with <code>.pdf</code>, record <code>StudentID</code> = 2nd underscore token, EvidenceType from filename suffix (Attendance|Transcript), and compute hashes. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)
+    </li>
+
+    <li><b>QuickXorHash and SHA</b>:
+      <ul>
+        <li>Evidence PDF QXH from Graph v2.1:  
+          <code>/_api/v2.1/drives/{DriveId}/root:/&lt;relPath&gt;:/?$select=file</code> → <code>file.hashes.quickXorHash</code>. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+        <li>RunPublish QXH similarly, to annotate <code>RUNPUBLISH_SHA256</code> as a <code>QXH:...</code> value (expected SHA placeholder when SHA‑256 service is not yet wired). [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)</li>
+      </ul>
+      Excel patch (EvidenceManifest row) — paste body builder:
+      <pre><code>@json(concat(
+'{',
+'"CohortID":"', variables('varIntakeId'), '",',
+'"RunId":"', variables('varPackageRunId'), '",',
+'"EvidenceType":"', outputs('c_PdfEvidenceType_FromName'), '",',
+'"EvidenceFileName":"', variables('varPdfname'), '",',
+'"ExpectedSHA256":"', variables('varSha256'), '",',
+'"EvidenceFileSizeBytes":', string(items('each_PdfFinal')['Length']), ',',
+'"EvidenceLastModifiedLocal":"', convertTimeZone(items('each_PdfFinal')['TimeLastModified'],'UTC','Mountain Standard Time'), '"',
+'}'))</code></pre>
+      Target: <code>tblEvidenceManifest</code> in <code>RunPublish.xlsx</code>. [1](https://mysait-my.sharepoint.com/personal/rodney_bainbridge_sait_ca/Documents/Microsoft%20Copilot%20Chat%20Files/AeroAccreditationCore_1_0_0_36_managed.zip.txt)
+    </li>
+
