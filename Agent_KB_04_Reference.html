@@ -18,11 +18,21 @@
 <li><code>Primers/Sharepoint/Folder_Architecture_Primer_v1.1.md</code></li>
 <li><code>References/Platform_Reference_Index.md</code></li>
 </ul>
-<h2>Power Automate Source Mapping (authoritative)</h2>
+<h2>Power Automate Source Mapping</h2>
 <ul>
-<li><strong>Repository (primary source)</strong>: <a href="https://github.com/rjbainbridge/aero-pa-solution">github.com/rjbainbridge/aero-pa-solution</a></li>
-<li><strong>Flow location (relative path)</strong>: <code>/src/Flows/Aero Accreditation - Course Audit</code></li>
-<li><strong>Key PA action (referenced by name)</strong>: <code>Populate Word template (DNQ Course Audit checklist)</code></li>
-<li><strong>Usage notes (KB-standard)</strong>: Source of truth for: Accreditation automation, Course audit generation, Word checklist population. All trigger, action, and schema references must resolve back to this path.</li>
+<li><strong>Authoritative local export</strong>: <code>Artifacts/PowerAutomate_Exports/AeroAccreditationCore_1_0_0_36_managed.zip</code></li>
+<li><strong>Supporting inventory</strong>: <code>Artifacts/PowerAutomate_Exports/AeroAccreditationCore_1_0_0_36_inventory.md</code></li>
+<li><strong>Original provided file</strong>: <code>C:\Users\rodne\Downloads\AeroAccreditationCore_1_0_0_36_managed.zip.txt</code></li>
+<li><strong>Solution</strong>: <code>AeroAccreditationCore</code> version <code>1.0.0.36</code> (managed)</li>
+<li><strong>Publisher</strong>: <code>AeroAccreditationDigitalization</code> (<code>AAD</code>), prefix <code>aad</code></li>
+<li><strong>Usage notes (KB-standard)</strong>: For Power Automate questions, resolve flows, triggers, operations, and list ids from this export before using any derived KB summary.</li>
+</ul>
+<h2>Flow Inventory From Export</h2>
+<ul>
+<li><strong>ProcessIntakeInbox</strong>: <code>Workflows/ProcessIntakeInbox-1090A00C-D311-F111-8341-7CED8D35F541.json</code> — trigger <code>For_a_selected_file</code> via <code>ForASelectedFileHybridTrigger</code> on table <code>5bcda010-124c-48ac-a9a7-00b70706baf4</code>.</li>
+<li><strong>GetStudentResults</strong>: <code>Workflows/GetStudentResults-75B78E64-CD15-F111-8341-7CED8D35F541.json</code> — trigger <code>When_a_file_is_created_or_modified_(properties_only)</code> via <code>GetOnUpdatedFileItems</code>, polling every <code>1 Minute</code>, filtered to filename <code>_INBOX-READY.txt</code> under <code>/_inbox/</code>.</li>
+<li><strong>GenerateLettersForIntake</strong>: <code>Workflows/GenerateLettersForIntake-58E4CD34-741D-F111-8341-7CED8D35F541.json</code> — trigger <code>trigger_ForSelectedIntake</code> via <code>GetItemHybridTriggerSchema</code> on table <code>979bac79-369e-4cda-ba63-08223b5dcbb3</code>.</li>
+<li><strong>QueueHardCopyOnCourseAuditAdminReview</strong>: <code>Workflows/QueueHardCopyOnCourseAuditAdminReview-1B411426-1E23-F111-8342-7CED8D35F541.json</code> — trigger <code>When_a_file_is_created_or_modified_(properties_only)</code> via <code>GetOnUpdatedFileItems</code>, polling every <code>1 Minute</code>, on table <code>66f929e3-72b9-434b-9337-9dcfe55d8da0</code>.</li>
+<li><strong>OnCohortCreation</strong>: <code>Workflows/OnCohortCreation-C416AF44-950B-F111-8406-7CED8D35F541.json</code> — trigger <code>OnIntakeCreation</code> via <code>GetOnNewItems</code>, polling every <code>1 Minute</code>, on table <code>979bac79-369e-4cda-ba63-08223b5dcbb3</code>.</li>
 </ul>
 </body></html>

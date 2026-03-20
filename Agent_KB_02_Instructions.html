@@ -28,14 +28,9 @@
 <h2>Source Repository Mapping Requirement</h2>
 <ul>
 <li>Always resolve source paths using <code>Agent_KB_04_Reference.html</code> first.</li>
-<li>Report values for:
-<ul>
-<li>PA repo URL: <code>https://github.com/rjbainbridge/aero-pa-solution</code></li>
-<li>PA flow path: <code>/src/Flows/Aero Accreditation - Course Audit</code></li>
-<li>VBA repo path: <code>/src/excel-vba/aero-accreditation</code></li>
-<li>VBA module: <code>modAeroAccreditation</code></li>
-</ul>
-</li>
+<li>For Power Automate, prefer the local managed export at <code>Artifacts/PowerAutomate_Exports/AeroAccreditationCore_1_0_0_36_managed.zip</code>.</li>
+<li>Use <code>Artifacts/PowerAutomate_Exports/AeroAccreditationCore_1_0_0_36_inventory.md</code> only as a convenience summary; when precision matters, inspect the export itself.</li>
+<li>Only report repository URLs, source paths, modules, flow locations, triggers, or schemas when they are present in local artifacts or explicitly supplied by the user.</li>
 <li>If mapping is absent, respond: “source unavailable in KB”.</li>
 </ul>
 </body></html>
